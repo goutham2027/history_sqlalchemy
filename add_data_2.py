@@ -6,17 +6,17 @@ from database import session_scope, query_local_db
 from models import Animal
 
 
-def perform_cud_operation(changed_object, session,  op_type=1, user_info='shashwat'):
+def perform_cud_operation(changed_object, session, op_type=1, user_info='gp'):
     if op_type !=1:
         if op_type == 0:
             session.add(changed_object)
-        else:
+        elif op_type == 2:
             session.delete(changed_object)
         session.commit()
         query = "SELECT transaction_id from {}_version where id={} and operation_type={}".format(changed_object.__tablename__, changed_object.id, op_type)
         trans_id = query_local_db(query)
 
-    elif op_type == 1:
+    else:
         random_string = uuid.uuid4().hex
         changed_object.uuids = random_string
         session.add(changed_object)
@@ -30,32 +30,15 @@ def perform_cud_operation(changed_object, session,  op_type=1, user_info='shashw
 
 def add_and_update_animal():
     with session_scope() as session:
-        animal_name = 'some_name'
-        animal_dict = {
-                'name': animal_name
-                }
-        animal = Animal(**animal_dict)
-        perform_cud_operation(animal, session, 0)
-        animal = session.query(Animal).filter_by(id=animal.id).one()
-
+        animal = session.query(Animal).filter_by(id=1).one()
         for i in range(0,2):
             j = i+1
-            temp_data = animal
-            animal.name = 'some_name'+'_e'*j
-            import ipdb; ipdb.set_trace()
+            animal.name = 'different_name'+'_1'*j
             perform_cud_operation(animal, session, 1)
-
-
-def delete_animal():
-    with session_scope() as session:
-        animal = session.query(Animal).filter_by(id=1).one()
-        perform_cud_operation(animal, session, 2)
 
 
 def perform_multiple_operations():
     add_and_update_animal()
-    delete_animal()
 
 if __name__ == '__main__':
-    perform_multiple_operations()
-
+   perform_multiple_operations()

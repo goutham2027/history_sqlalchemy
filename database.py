@@ -21,14 +21,8 @@ def session_scope():
     finally:
         session.close()
 
-def map_keys_to_values(cols, values):
-    def map_cols_to_values(col_values):
-        return {col: val for (col, val) in zip(cols, col_values)}
-    return list(map(map_cols_to_values, values))
 
-
-def query_stpos_cache(query):
+def query_local_db(query):
     with session_scope() as session:
         results = session.execute(text(query))
-        #  return map_keys_to_values(results.keys(), results.fetchall())
-
+    return results

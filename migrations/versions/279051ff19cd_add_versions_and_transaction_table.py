@@ -1,8 +1,8 @@
-"""Added users and animals tables
+"""Add versions and transaction table
 
-Revision ID: 7695fca20797
-Revises:
-Create Date: 2018-05-31 22:45:54.977478
+Revision ID: 279051ff19cd
+Revises: 
+Create Date: 2018-06-07 17:00:58.539302
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7695fca20797'
+revision = '279051ff19cd'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,12 +21,14 @@ def upgrade():
     op.create_table('animals',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=50), nullable=True),
+    sa.Column('uuids', sa.String(length=50), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     schema='history_sqlalchemy'
     )
     op.create_table('animals_version',
     sa.Column('id', sa.Integer(), autoincrement=False, nullable=False),
     sa.Column('name', sa.String(length=50), autoincrement=False, nullable=True),
+    sa.Column('uuids', sa.String(length=50), autoincrement=False, nullable=True),
     sa.Column('transaction_id', sa.BigInteger(), autoincrement=False, nullable=False),
     sa.Column('end_transaction_id', sa.BigInteger(), nullable=True),
     sa.Column('operation_type', sa.SmallInteger(), nullable=False),

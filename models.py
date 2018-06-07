@@ -15,5 +15,6 @@ class Animal(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
+    uuids = Column(String(50))
 
 sa.orm.configure_mappers()
