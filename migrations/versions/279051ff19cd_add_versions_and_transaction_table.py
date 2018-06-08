@@ -1,7 +1,7 @@
 """Add versions and transaction table
 
 Revision ID: 279051ff19cd
-Revises: 
+Revises:
 Create Date: 2018-06-07 17:00:58.539302
 
 """
@@ -21,14 +21,12 @@ def upgrade():
     op.create_table('animals',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=50), nullable=True),
-    sa.Column('uuids', sa.String(length=50), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     schema='history_sqlalchemy'
     )
     op.create_table('animals_version',
     sa.Column('id', sa.Integer(), autoincrement=False, nullable=False),
     sa.Column('name', sa.String(length=50), autoincrement=False, nullable=True),
-    sa.Column('uuids', sa.String(length=50), autoincrement=False, nullable=True),
     sa.Column('transaction_id', sa.BigInteger(), autoincrement=False, nullable=False),
     sa.Column('end_transaction_id', sa.BigInteger(), nullable=True),
     sa.Column('operation_type', sa.SmallInteger(), nullable=False),
